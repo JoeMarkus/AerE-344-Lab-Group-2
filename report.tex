@@ -1,0 +1,186 @@
+%Document Preamble
+%Here you can put commands that you would like to run before beginning the document such as packages
+\documentclass{article}
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+\linespread{1.1}
+\usepackage{indentfirst}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+%next package is for code formatting
+\usepackage{listings}
+\usepackage{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codered}{rgb}{1,0,0}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    numberstyle=\footnotesize\color{codegray},
+    stringstyle=\color{codered},
+    basicstyle=\normalsize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{AerE 361: Lab 3\ \LaTeX\ Report}}\\
+    \normalsize\vspace{0.1in}\small{Due on September 11, 2018 at 11:00 a.m.}\\
+    \vspace{0.1in}\large{\textit{Dr. Nataliya Altukhova}}
+    \vspace{3in}
+}
+
+\author{Joe Markus}
+\date{\today}
+\begin{document}
+\maketitle
+\newpage
+
+\section{Introduction}
+In this lab, we experimented some more with Linux, and I will detail out the solutions to each of the problems below. Along with the solutions will be listed a few lines of script I used with \LaTeX\ to hopefully make creating these documents a little bit easier in the future. 
+
+\section{Light-Bulb Moments}
+\subsection{Introduction to \LaTeX}
+In this assignment, we were asked to create our first \LaTeX\ document. In doing so, I have started to understand and appreciate the ``What you see is what you get'' mantra. It would be very useful to use a tool such as \LaTeX\ in the workplace, because you can spend a little bit of time formatting your initial document, then in the future you can easily revise and edit documents without a worry as to how your changes might change the overall appearance. I am a very large proponent to standardizing the way I write reports, and having a consistent template in a coding/software environment is a comfortable thing to me. Hopefully I can use this template in the weeks to come, and modify it slightly to fit the needs of the reports I will be writing in the future.
+
+\subsection{Using \LaTeX}
+Knowing why people use \LaTeX\ is one thing, but implementing it in your work is entirely another beast. I realized that the most effective way of thinking about \LaTeX\ is like a retroactive formatting tool. Going in to the document, it is easier to start by writing down the different sections, then creating the space for each of the pieces of information you have to include. I would assume that it is easiest to begin any document by creating the list of equations you might use first, then calling those equations and possibly references later while you are writing the document. I am curious to see how the BibTeX tool works, and from what I have seen, you need to import some different packages to do some basic things such as URL formatting. While this may be an initial investment of time, I'm sure it will save a lot more time in the future. 
+\section{Command Cheat Sheet (Solutions \&\ more)}
+
+\subsection{Exercise 2}
+\large{Problem Statement: }\normalsize Please count how many files whose name contains ``.trace'' in the directory ``data/simplic3-
+best1''. Write this number to the file ``\$LAB3WORKDIR/exercise-2.res''.
+\newline\newline
+\large{Solution: }\normalsize 
+\begin{lstlisting}[language=bash]
+$ ls | grep ".trace" | wc -l
+\end{lstlisting}
+
+\subsection{Exercise 3}
+\large{Problem Statement: }\normalsize Find the files in ``data/simplic3-best1'' whose name contains ``oski''. Write these file names
+(not paths) to the file ``\$LAB3WORKDIR/exercise-3.res'' one per line.
+\newline\newline
+\large{Solution: }\normalsize 
+\begin{lstlisting}[language=bash]
+$ ls | grep "oski"
+\end{lstlisting}
+
+\subsection{Exercise 4}
+\large{Problem Statement: }\normalsize Please count how many files in ``data/simplic3-best1'' which contains the string ``Unsafe'' and
+``Safe'' (case sensitive) respectively. Write these two numbers, in order – one per line, to the
+file ``\$LAB3WORKDIR/exercise-4.res''.
+\newline\newline
+\large{Solution: }\normalsize 
+\begin{lstlisting}[language=bash]
+$ grep "Safe" * | wc -l $ grep "Unsafe" * | wc -l
+\end{lstlisting}
+
+\subsection{Exercise 5}
+\large{Problem Statement: }\normalsize Search all files in the directory ``data/simplic3-best1/'', and if the file contains a line with the string ``total\_time'' then extract the number from that line.
+Write all the file names and the numbers to the file ``\$LAB3WORKDIR/exercise-5.res'', with
+the format of ``file-name: number'', line by line.
+For example, the file ``data/simplic3-best1/visemodel.log'' has a line containing the string
+``total\_time'', and the number in that line is 0.037. So you must write ``visemodel: 0.037'' as
+one line to the file ``\$LAB3WORKDIR/exercise-5''.
+\newline\newline
+\large{Solution: }\normalsize 
+\begin{lstlisting}[language=bash]
+$ cd /myfiles/jdmarkus/lab-3-JoeMarkus/data/simplic3-best1; grep total_time * | sed 's/total_time = / /' | sed 's/.log//' > /myfiles/jdmarkus/lab-3-JoeMarkus/exercise-5.res
+\end{lstlisting}
+
+\subsection{Exercise 6}
+\large{Problem Statement: }\normalsize Please extract the first two columns of the file ``data/csv/simplic3-best1.csv''. Note that in
+the csv (comma separated value) file, each column is separated by a comma. Write the
+output to the file ``\$LAB3WORKDIR/exercise-6.res''.
+\newline\newline
+\large{Solution: }\normalsize 
+\begin{lstlisting}[language=bash]
+$ awk -F',' '{print $1,$2}' simplic3-best1.csv > $LAB3WORKDIR/exercise-6.res
+\end{lstlisting}
+
+\subsection{Exercise 7}
+\large{Problem Statement: }\normalsize Insert a new column before the original first column of the file ``data/csv/simplic3-best1.csv''.
+Each number of the new column is the line number. So in the first line, the number is 1
+in the new column, and the second line, the number is 2 in the new column\ldots\ Write the
+new csv to the file ``\$LAB3WORKDIR/exercise-7.res'' and remember that columns should
+be seperated by commas.
+\newline\newline
+\large{Solution: }\normalsize 
+\begin{lstlisting}[language=bash]
+$ awk -F, '{$1=++i FS $1;}1' OFS=, simplic3-best1.csv > $LAB3WORKDIR/exercise-7.res
+\end{lstlisting}
+
+\subsection{Exercise 8}
+\large{Problem Statement: }\normalsize In ``data/csv/simplic3-best1.csv'', the contents in each line are separated by commas. However,
+there are some contents which are empty, so you can see the string ``,,'' in some lines.
+Replace these empty contents by the string ``empty'', such that every ``,,'' will become ``,empty,''.
+Write the new csv to the file ``\$LAB3WORKDIR/exercise-8.res''.
+\newline\newline
+\large{Solution: }\normalsize This is the fill-empty-value.sh script:
+\begin{lstlisting}[language=bash]
+#!/bin/bash
+
+for i in $( seq 1 2); do
+ sed -e "s/^,/$2,/" -e "s/,,/,$2,/g" -e "s/,$/,$2/" -i $1
+done
+\end{lstlisting}
+Then, these are the commands run to execute the task:
+\begin{lstlisting}[language=bash]
+$ cp $LAB3WORKDIR/data/csv/simplic3-best1.csv $LAB3WORKDIR 
+$ bash fill-empty-values.sh simplic3-best1.csv empty
+\end{lstlisting}
+
+\newpage
+\section{Resources}
+\begin{itemize}
+\item
+\url{https://unix.stackexchange.com/questions/12342/show-contents-of-many-files}
+\item
+\url{https://unix.stackexchange.com/questions/57957/how-do-regular-expressions-differ-from-wildcards-used-to-filter-files}
+\url{https://www.digitalocean.com/community/tutorials/the-basics-of-using-the-sed-stream-editor-to-manipulate-text-in-linux}
+\item
+\url{http://www.gnu.org/software/sed/}
+\item
+\url{https://askubuntu.com/questions/420981/how-do-i-save-terminal-output-to-a-file}
+\item
+\url{https://www.cyberciti.biz/faq/bash-scripting-using-awk/}
+\item
+\url{http://www.theunixschool.com/2012/11/awk-examples-insert-remove-update-fields.html}
+\item
+\url{https://linuxconfig.org/how-to-fill-all-empty-valued-cells-within-a-csv-file-with-sed-and-bash-shell}
+\item
+\url{https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Step_by_Step_Guide/s1-manipulate-current.html}
+\item
+\url{https://www.latex-tutorial.com/tutorials/bibtex/}
+\item
+\url{https://www.overleaf.com/latex/learn/free-online-introduction-to-latex-part-1#.W5bNbOhKiUk}
+\item
+\url{https://www.overleaf.com/latex/learn/free-online-introduction-to-latex-part-2#.W5bNbehKiUk}
+\item
+\url{https://en.wikibooks.org/wiki/LaTeX/Document_Structure}
+\item
+\url{https://www.nyu.edu/projects/beber/files/Chang_LaTeX_sheet.pdf}
+\item
+\url{https://www.sharelatex.com/learn/Code_listing}
+\item
+AERE 361: Computational Techniques for Aerospace Design, Laboratory Manual; Prof. Kristin Yvonne Rozier, Brian Kempa, Dr. Jianwen Li, Rohit Dureja. Fall 2018 (AERE361\_LabManual-2.pdf)
+\end{itemize}
+
+\end{document}
